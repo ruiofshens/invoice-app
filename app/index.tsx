@@ -1,22 +1,22 @@
-import { View, StyleSheet } from 'react-native';
-import { Text, Button } from 'react-native-paper';
-
+import { StyleSheet, ScrollView } from "react-native";
+import Invoice from "@/components/Invoice";
+import AddItemButton from "@/components/AddItemButton";
+import CopyToClipboardButton from "@/components/CopyToClipboardButton";
 
 export default function HomeScreen() {
   return (
-    <View style={styles.container}>
-      <Text>Hello World!</Text>
-      <Button icon="pencil-plus" mode="contained" onPress={() => console.log('Pressed')}>
-        Add new item
-      </Button>
-    </View>
+    <>
+      <ScrollView style={styles.container}>
+        <Invoice />
+      </ScrollView>
+      <AddItemButton />
+      <CopyToClipboardButton />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
