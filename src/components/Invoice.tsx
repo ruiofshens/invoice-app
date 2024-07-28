@@ -1,43 +1,53 @@
 import { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { Text, DataTable, Modal, Portal, Button } from "react-native-paper";
+import { Text, DataTable, Portal } from "react-native-paper";
+import { InvoiceItem } from "../types/InvoiceItem";
+import DetailedItemModal from "./DetailedItemModal";
 
 export default function Invoice() {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedRow, setSelectedRow] = useState<string | null>(null);
-
-  const handleRowPress = (rowData: string) => {
-    setSelectedRow(rowData);
-    setModalVisible(true);
-  };
-
   // To replace with actual data
-  const [items] = useState([
+  const [items, setItems] = useState<InvoiceItem[]>([
     {
-      key: 1,
+      id: 1,
       name: "Item 1",
       quantity: 13,
       price: 1.2,
     },
     {
-      key: 2,
+      id: 2,
       name: "Item 2",
       quantity: 5,
       price: 0.8,
     },
     {
-      key: 3,
+      id: 3,
       name: "Item 3",
       quantity: 60,
       price: 0.8,
     },
     {
-      key: 4,
+      id: 4,
       name: "Item 4",
       quantity: 30,
       price: 0.8,
     },
   ]);
+
+  const handleUpdateItem = (updatedItem: InvoiceItem) => {
+    setItems((items) =>
+      items.map((item) =>
+        item.id === updatedItem.id ? { ...item, ...updatedItem } : item,
+      ),
+    );
+  };
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<InvoiceItem>(items[1]);
+
+  const handleRowPress = (item: InvoiceItem) => {
+    setSelectedItem(item);
+    setModalVisible(true);
+  };
 
   const calculateSum = (): string => {
     const sum = items.reduce(
@@ -65,10 +75,7 @@ export default function Invoice() {
         </DataTable.Header>
 
         {items.map((item) => (
-          <DataTable.Row
-            key={item.key}
-            onPress={() => handleRowPress(item.name)}
-          >
+          <DataTable.Row key={item.id} onPress={() => handleRowPress(item)}>
             <View style={[styles.cell, { flex: 13 }]}>
               <Text style={styles.text}>{item.name}</Text>
             </View>
@@ -97,14 +104,12 @@ export default function Invoice() {
       </DataTable>
 
       <Portal>
-        <Modal
-          visible={modalVisible}
-          onDismiss={() => setModalVisible(false)}
-          contentContainerStyle={styles.modalContainer}
-        >
-          <Text>Clicked on {selectedRow}</Text>
-          <Button onPress={() => setModalVisible(false)}>Close</Button>
-        </Modal>
+        <DetailedItemModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          item={selectedItem}
+          handleUpdateItem={handleUpdateItem}
+        />
       </Portal>
     </>
   );

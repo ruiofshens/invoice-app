@@ -1,7 +1,7 @@
 import { StyleSheet, ScrollView } from "react-native";
-import Invoice from "@/components/Invoice";
-import AddItemButton from "@/components/AddItemButton";
-import CopyToClipboardButton from "@/components/CopyToClipboardButton";
+import Invoice from "@/src/components/Invoice";
+import AddItemButton from "@/src/components/AddItemButton";
+import CopyToClipboardButton from "@/src/components/CopyToClipboardButton";
 
 export default function HomeScreen() {
   return (
