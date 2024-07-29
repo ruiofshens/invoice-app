@@ -1,43 +1,19 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, DataTable, Portal } from "react-native-paper";
-import { InvoiceItem } from "../types/InvoiceItem";
+import { InvoiceItem } from "../types/types";
 import DetailedItemModal from "./DetailedItemModal";
+import { InvoicesContext } from "../context/InvoicesContext";
 
 export default function Invoice() {
-  // To replace with actual data
-  const [items, setItems] = useState<InvoiceItem[]>([
-    {
-      id: 1,
-      name: "Item 1",
-      quantity: 13,
-      price: 1.2,
-    },
-    {
-      id: 2,
-      name: "Item 2",
-      quantity: 5,
-      price: 0.8,
-    },
-    {
-      id: 3,
-      name: "Item 3",
-      quantity: 60,
-      price: 0.8,
-    },
-    {
-      id: 4,
-      name: "Item 4",
-      quantity: 30,
-      price: 0.8,
-    },
-  ]);
+  const { invoices, setInvoices } = useContext(InvoicesContext);
+  const [items, setItems] = useState(invoices[0].items);
 
   const handleUpdateItem = (updatedItem: InvoiceItem) => {
     setItems((items) =>
       items.map((item) =>
-        item.id === updatedItem.id ? { ...item, ...updatedItem } : item,
-      ),
+        item.id === updatedItem.id ? { ...item, ...updatedItem } : item
+      )
     );
   };
 
@@ -52,7 +28,7 @@ export default function Invoice() {
   const calculateSum = (): string => {
     const sum = items.reduce(
       (acc, item) => acc + item.quantity * item.price,
-      0,
+      0
     );
     return formatPrice(sum);
   };

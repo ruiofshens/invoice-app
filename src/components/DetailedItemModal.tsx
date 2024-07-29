@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
 import { Text, Modal, Button, TextInput } from "react-native-paper";
-import { InvoiceItem } from "../types/InvoiceItem";
+import { InvoiceItem } from "../types/types";
 
 type Props = {
   modalVisible: boolean;

@@ -1,16 +1,34 @@
-import { StyleSheet, ScrollView } from "react-native";
-import Invoice from "@/src/components/Invoice";
-import AddItemButton from "@/src/components/AddItemButton";
-import CopyToClipboardButton from "@/src/components/CopyToClipboardButton";
+import { useState, useContext } from "react";
+import { StyleSheet, View } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
+import { Link } from "expo-router";
+import { InvoicesContext } from "@/src/context/InvoicesContext";
 
 export default function HomeScreen() {
+  const { invoices, setInvoices } = useContext(InvoicesContext);
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState(
+    invoices.map((invoice) => ({
+      label: invoice.name,
+      value: invoice.name,
+    }))
+  );
+
   return (
     <>
-      <ScrollView style={styles.container}>
-        <Invoice />
-      </ScrollView>
-      <AddItemButton />
-      <CopyToClipboardButton />
+      <View style={styles.container}>
+        <DropDownPicker
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+        />
+        <Link href="/invoice">View details</Link>
+      </View>
     </>
   );
 }

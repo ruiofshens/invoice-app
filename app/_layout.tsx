@@ -1,9 +1,13 @@
 import {
   MD3LightTheme as DefaultTheme,
   PaperProvider,
+  Button,
 } from "react-native-paper";
+import { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Drawer } from "expo-router/drawer";
+import { Stack } from "expo-router";
+import { InvoicesContext } from "@/src/context/InvoicesContext";
+import { InvoiceList } from "@/src/types/types";
 
 const theme = {
   ...DefaultTheme,
@@ -17,26 +21,72 @@ const theme = {
 };
 
 export default function Layout() {
+  const [invoices, setInvoices] = useState<InvoiceList[]>([
+    {
+      name: "Owner A",
+      items: [
+        {
+          id: 1,
+          name: "Item 1",
+          quantity: 13,
+          price: 1.2,
+        },
+        {
+          id: 2,
+          name: "Item 2",
+          quantity: 5,
+          price: 0.8,
+        },
+      ],
+    },
+    {
+      name: "Owner B",
+      items: [
+        {
+          id: 3,
+          name: "Item 3",
+          quantity: 60,
+          price: 0.8,
+        },
+        {
+          id: 4,
+          name: "Item 4",
+          quantity: 30,
+          price: 0.8,
+        },
+      ],
+    },
+  ]);
+  const value = { invoices, setInvoices };
+
   return (
     <PaperProvider theme={theme}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <Drawer>
-          <Drawer.Screen
-            name="index"
-            options={{
-              drawerLabel: "Invoice 1",
-              title: "Invoice 1",
+      <InvoicesContext.Provider value={value}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Stack
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: "#f2f2f2",
+              },
+              headerTintColor: "black",
             }}
-          />
-          <Drawer.Screen
-            name="(suppliers)/supplier1"
-            options={{
-              drawerLabel: "Screen 2",
-              title: "Screen 2",
-            }}
-          />
-        </Drawer>
-      </GestureHandlerRootView>
+          >
+            <Stack.Screen
+              name="index"
+              options={{
+                title: "",
+                headerRight: () => <Button>+</Button>,
+              }}
+            />
+            <Stack.Screen
+              name="invoice"
+              options={{
+                title: "Invoice 1",
+              }}
+            />
+          </Stack>
+        </GestureHandlerRootView>
+      </InvoicesContext.Provider>
     </PaperProvider>
   );
 }
