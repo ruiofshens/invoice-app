@@ -9,3 +9,8 @@ export interface InvoiceItem {
   quantity: number;
   price: number;
 }
+
+export interface InvoiceDropdownItem {
+  label: string;
+  value: string;
+}

@@ -1,20 +1,28 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, DataTable, Portal } from "react-native-paper";
 import { InvoiceItem } from "../types/types";
 import DetailedItemModal from "./DetailedItemModal";
-import { InvoicesContext } from "../context/InvoicesContext";
+import { useInvoice } from "../context/InvoiceContext";
 
 export default function Invoice() {
-  const { invoices, setInvoices } = useContext(InvoicesContext);
-  const [items, setItems] = useState(invoices[0].items);
+  const { invoice, updateInvoice } = useInvoice();
+  const [items, setItems] = useState(invoice.items);
 
   const handleUpdateItem = (updatedItem: InvoiceItem) => {
-    setItems((items) =>
-      items.map((item) =>
+    setItems((prevItems) => {
+      const newItems = prevItems.map((item) =>
         item.id === updatedItem.id ? { ...item, ...updatedItem } : item
-      )
-    );
+      );
+
+      // Callback to have access to newItems returned by handleUpdateItem
+      updateInvoice({
+        name: invoice.name,
+        items: newItems,
+      });
+
+      return newItems;
+    });
   };
 
   const [modalVisible, setModalVisible] = useState(false);

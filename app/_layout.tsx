@@ -3,11 +3,9 @@ import {
   PaperProvider,
   Button,
 } from "react-native-paper";
-import { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Stack } from "expo-router";
-import { InvoicesContext } from "@/src/context/InvoicesContext";
-import { InvoiceList } from "@/src/types/types";
+import { InvoicesContextProvider } from "@/src/context/InvoicesContext";
 
 const theme = {
   ...DefaultTheme,
@@ -21,47 +19,9 @@ const theme = {
 };
 
 export default function Layout() {
-  const [invoices, setInvoices] = useState<InvoiceList[]>([
-    {
-      name: "Owner A",
-      items: [
-        {
-          id: 1,
-          name: "Item 1",
-          quantity: 13,
-          price: 1.2,
-        },
-        {
-          id: 2,
-          name: "Item 2",
-          quantity: 5,
-          price: 0.8,
-        },
-      ],
-    },
-    {
-      name: "Owner B",
-      items: [
-        {
-          id: 3,
-          name: "Item 3",
-          quantity: 60,
-          price: 0.8,
-        },
-        {
-          id: 4,
-          name: "Item 4",
-          quantity: 30,
-          price: 0.8,
-        },
-      ],
-    },
-  ]);
-  const value = { invoices, setInvoices };
-
   return (
     <PaperProvider theme={theme}>
-      <InvoicesContext.Provider value={value}>
+      <InvoicesContextProvider>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Stack
             screenOptions={{
@@ -86,7 +46,7 @@ export default function Layout() {
             />
           </Stack>
         </GestureHandlerRootView>
-      </InvoicesContext.Provider>
+      </InvoicesContextProvider>
     </PaperProvider>
   );
 }
