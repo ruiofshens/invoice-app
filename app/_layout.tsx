@@ -5,7 +5,7 @@ import {
 } from "react-native-paper";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Stack } from "expo-router";
-import { InvoicesContextProvider } from "@/src/context/InvoicesContext";
+import { InvoiceContextProvider } from "@/src/context/InvoiceContext";
 
 const theme = {
   ...DefaultTheme,
@@ -21,7 +21,7 @@ const theme = {
 export default function Layout() {
   return (
     <PaperProvider theme={theme}>
-      <InvoicesContextProvider>
+      <InvoiceContextProvider>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Stack
             screenOptions={{
@@ -46,7 +46,7 @@ export default function Layout() {
             />
           </Stack>
         </GestureHandlerRootView>
-      </InvoicesContextProvider>
+      </InvoiceContextProvider>
     </PaperProvider>
   );
 }

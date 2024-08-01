@@ -5,7 +5,10 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { InvoiceList, InvoiceDropdownItem } from "@/src/types/types";
-import { populateAsyncStorage } from "@/scripts/populateSampleInvoices";
+import {
+  populateAsyncStorage,
+  clearAsyncStorage,
+} from "@/scripts/populateSampleInvoices";
 import { useInvoice } from "@/src/context/InvoiceContext";
 import { useFocusEffect } from "expo-router";
 
@@ -89,6 +92,7 @@ export default function HomeScreen() {
         </Button>
 
         <Button onPress={populateAsyncStorage}>Click to populate!</Button>
+        <Button onPress={clearAsyncStorage}>Click to clear!</Button>
       </View>
     </>
   );

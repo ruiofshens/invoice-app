@@ -51,3 +51,12 @@ export const populateAsyncStorage = async () => {
     console.error("Error populating AsyncStorage:", error);
   }
 };
+
+export const clearAsyncStorage = async () => {
+  try {
+    await AsyncStorage.clear();
+    console.log("AsyncStorage cleared successfully.");
+  } catch (error) {
+    console.error("Failed to clear AsyncStorage:", error);
+  }
+};

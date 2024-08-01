@@ -52,4 +52,4 @@ const useInvoice = () => {
   return context;
 };
 
-export { InvoiceContextProvider as InvoicesContextProvider, useInvoice };
+export { InvoiceContextProvider, useInvoice };

@@ -1,32 +1,32 @@
 import { useState } from "react";
 import { StyleSheet } from "react-native";
-import { FAB, Snackbar } from "react-native-paper";
+import { FAB, Portal } from "react-native-paper";
+import { useInvoice } from "../context/InvoiceContext";
+import InvoiceSummaryModal from "./InvoiceSummaryModal";
 
 export default function CopyToClipboardButton() {
-  const [visible, setVisible] = useState(false);
+  const { invoice } = useInvoice();
 
-  const onToggleSnackBar = () => setVisible(!visible);
-  const onDismissSnackBar = () => setVisible(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <>
       <FAB
         icon="clipboard-text-multiple"
         style={styles.fab}
-        onPress={onToggleSnackBar}
-      />
-      <Snackbar
-        visible={visible}
-        onDismiss={onDismissSnackBar}
-        action={{
-          label: "Got it",
-          onPress: () => {
-            // Do something
-          },
+        onPress={() => {
+          setModalVisible(true);
         }}
-      >
-        Copied to clipboard!
-      </Snackbar>
+      />
+
+      {/* Passing in invoice here because context seems to not work well for component in Portal */}
+      <Portal>
+        <InvoiceSummaryModal
+          invoice={invoice}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      </Portal>
     </>
   );
 }

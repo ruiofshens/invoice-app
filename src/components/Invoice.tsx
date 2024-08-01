@@ -26,7 +26,7 @@ export default function Invoice() {
   };
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<InvoiceItem>(items[1]);
+  const [selectedItem, setSelectedItem] = useState<InvoiceItem>(items[0]);
 
   const handleRowPress = (item: InvoiceItem) => {
     setSelectedItem(item);
