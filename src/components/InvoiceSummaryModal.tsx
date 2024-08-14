@@ -1,7 +1,8 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { StyleSheet, View, Dimensions, Linking } from "react-native";
 import { Text, Modal, Button } from "react-native-paper";
-import { InvoiceList } from "../types/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { InvoiceList, WHATSAPPNUM_KEY } from "../types/types";
 
 type Props = {
   invoice: InvoiceList;
@@ -10,22 +11,38 @@ type Props = {
 };
 
 export default function InvoiceSummaryModal(props: Props) {
-  const [serializedMsg, setSerializedMsg] = useState(
-    props.invoice.items
-      .map((item) => `${item.name}: ${item.quantity}`)
-      .join("\n")
-  );
-
   const handleUpdate = () => {
     props.setModalVisible(false);
     sendToWhatsApp();
   };
 
+  useEffect(() => {
+    // Table header and divider
+    const serializedArr = [];
+    serializedArr.push(`Qty | Item`);
+    serializedArr.push("------------");
+    const previewArr: string[] = [];
+
+    // Use monospace for quantity in front to ensure items behind start at same pos
+    props.invoice.items.forEach((item) => {
+      const numSpaces = item.quantity < 10 ? 2 : 1; // Additional space for single-digit numbers
+      serializedArr.push(
+        `\`\`\`${item.quantity}${" ".repeat(numSpaces)}\`\`\` ${item.name}`
+      );
+      previewArr.push(`${item.quantity}${" ".repeat(numSpaces)} ${item.name}`);
+    });
+
+    setSerializedMsg(serializedArr.join("\n"));
+    setPreviewMsg(previewArr.join("\n"));
+  }, [props.invoice]);
+
+  const [serializedMsg, setSerializedMsg] = useState("");
+  const [previewMsg, setPreviewMsg] = useState("");
+
   const sendToWhatsApp = async () => {
-    const phoneNumber = "98765432";
+    const phoneNumber = await AsyncStorage.getItem(WHATSAPPNUM_KEY);
     const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(serializedMsg)}`;
     const supported = await Linking.canOpenURL(whatsappURL);
-    console.log(whatsappURL);
 
     if (supported) {
       await Linking.openURL(whatsappURL);
@@ -40,11 +57,11 @@ export default function InvoiceSummaryModal(props: Props) {
       onDismiss={() => props.setModalVisible(false)}
       contentContainerStyle={styles.modalContainer}
     >
-      <Text style={styles.header}>Summary</Text>
+      <Text style={styles.header}>Message Summary</Text>
 
       <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>
-          <Text style={styles.title}>{serializedMsg}</Text>
+          <Text style={styles.modalMessage}>{previewMsg}</Text>
         </View>
 
         <View style={styles.buttonContainer}>
@@ -95,10 +112,10 @@ const styles = StyleSheet.create({
   inputWrapper: {
     marginBottom: 30,
   },
-  title: {
-    fontSize: 25,
-    fontWeight: "bold",
+  modalMessage: {
+    fontSize: 20,
     marginBottom: 5,
+    fontFamily: "Courier",
   },
   buttonContainer: {
     flexDirection: "row",

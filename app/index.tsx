@@ -4,7 +4,11 @@ import { Button } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { InvoiceList, InvoiceDropdownItem } from "@/src/types/types";
+import {
+  InvoiceList,
+  InvoiceDropdownItem,
+  INVOICES_KEY,
+} from "@/src/types/types";
 import {
   populateAsyncStorage,
   clearAsyncStorage,
@@ -32,16 +36,9 @@ export default function HomeScreen() {
       const fetchData = async () => {
         try {
           // Fetch raw data for all invoices
-          const allKeys = await AsyncStorage.getAllKeys();
-          const results = await AsyncStorage.multiGet(allKeys);
-
-          // Populate dropdown menu with invoices retrieved
+          const results = await AsyncStorage.getItem(INVOICES_KEY);
           if (results) {
-            const fetchedData = results.map(([key, serializedItems]) => ({
-              name: key,
-              items: serializedItems ? JSON.parse(serializedItems) : [],
-            }));
-
+            const fetchedData = JSON.parse(results) as InvoiceList[];
             setAllInvoices(fetchedData);
             setItems(
               fetchedData.map((invoice) => ({

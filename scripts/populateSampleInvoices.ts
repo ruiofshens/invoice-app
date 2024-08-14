@@ -40,12 +40,9 @@ const sampleInvoices: InvoiceList[] = [
 
 export const populateAsyncStorage = async () => {
   try {
-    for (const invoiceList of sampleInvoices) {
-      await AsyncStorage.setItem(
-        invoiceList.name,
-        JSON.stringify(invoiceList.items)
-      );
-    }
+    await AsyncStorage.setItem("invoices", JSON.stringify(sampleInvoices));
+    // Sample phone number used in Twilio Sandbox, as number needs to be verified
+    await AsyncStorage.setItem("whatsappNum", "14155238886");
     console.log("AsyncStorage populated successfully");
   } catch (error) {
     console.error("Error populating AsyncStorage:", error);
