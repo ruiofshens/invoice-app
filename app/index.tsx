@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, Icon, Text } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -50,6 +50,7 @@ export default function HomeScreen() {
 
           setLoading(false);
           setValue(null);
+          setSelectedInvoice(undefined);
         } catch (error) {
           console.error("Error retrieving data from AsyncStorage:", error);
           setLoading(false);
@@ -63,14 +64,22 @@ export default function HomeScreen() {
   return (
     <>
       <View style={styles.container}>
+        <View style={styles.header}>
+          <Icon source="food" size={50} />
+          <Text style={styles.mainText}>Invoices</Text>
+        </View>
         <DropDownPicker
           open={open}
           value={value}
           items={items}
+          loading={loading}
+          containerStyle={styles.dropdown}
+          textStyle={styles.dropdownText}
+          placeholderStyle={styles.placeholderText}
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
-          placeholder="Select an invoice"
+          placeholder="Select an option..."
           onSelectItem={(item) => {
             setSelectedInvoice(
               allInvoices.filter((invoice) => invoice.name === item.value)[0]
@@ -79,6 +88,8 @@ export default function HomeScreen() {
         />
 
         <Button
+          style={styles.button}
+          mode="contained"
           disabled={!selectedInvoice}
           onPress={() => {
             updateInvoice(selectedInvoice!);
@@ -88,8 +99,13 @@ export default function HomeScreen() {
           Navigate to Invoice
         </Button>
 
-        <Button onPress={populateAsyncStorage}>Click to populate!</Button>
-        <Button onPress={clearAsyncStorage}>Click to clear!</Button>
+        {/* Comment and uncomment lines below if you need to populate or clear storage */}
+        <Button onPress={populateAsyncStorage}>
+          dev: Click to populate default values!
+        </Button>
+        <Button onPress={clearAsyncStorage}>
+          dev: Click to clear default values!
+        </Button>
       </View>
     </>
   );
@@ -98,5 +114,28 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  header: {
+    alignItems: "center",
+  },
+  mainText: {
+    fontSize: 40,
+  },
+  dropdown: {
+    marginTop: "10%",
+    width: "85%",
+    alignSelf: "center",
+  },
+  dropdownText: {
+    fontSize: 25,
+  },
+  placeholderText: {
+    color: "gray",
+  },
+  button: {
+    marginTop: "10%",
+    marginBottom: "20%",
   },
 });

@@ -2,6 +2,7 @@ import {
   MD3LightTheme as DefaultTheme,
   PaperProvider,
   Button,
+  Icon,
 } from "react-native-paper";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Stack } from "expo-router";
@@ -35,7 +36,11 @@ export default function Layout() {
               name="index"
               options={{
                 title: "",
-                headerRight: () => <Button>+</Button>,
+                headerRight: () => (
+                  <Button>
+                    <Icon source="folder-plus" size={30} />
+                  </Button>
+                ),
               }}
             />
             <Stack.Screen

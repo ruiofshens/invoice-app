@@ -4,7 +4,7 @@ import { FAB } from "react-native-paper";
 export default function AddItemButton() {
   return (
     <FAB
-      icon="plus"
+      icon="file-plus"
       style={styles.fab}
       onPress={() => console.log("Pressed")}
     />
