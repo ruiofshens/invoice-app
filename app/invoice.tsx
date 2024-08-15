@@ -1,5 +1,5 @@
 import { StyleSheet, ScrollView } from "react-native";
-import Invoice from "@/src/components/Invoice";
+import CurrentInvoice from "@/src/components/CurrentInvoice";
 import AddItemButton from "@/src/components/AddItemButton";
 import CopyToClipboardButton from "@/src/components/CopyToClipboardButton";
 
@@ -7,7 +7,7 @@ export default function InvoiceScreen() {
   return (
     <>
       <ScrollView style={styles.container}>
-        <Invoice />
+        <CurrentInvoice />
       </ScrollView>
       <AddItemButton />
       <CopyToClipboardButton />

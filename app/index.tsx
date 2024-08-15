@@ -9,10 +9,6 @@ import {
   InvoiceDropdownItem,
   INVOICES_KEY,
 } from "@/src/types/types";
-import {
-  populateAsyncStorage,
-  clearAsyncStorage,
-} from "@/scripts/populateSampleInvoices";
 import { useInvoice } from "@/src/context/InvoiceContext";
 import { useFocusEffect } from "expo-router";
 
@@ -96,15 +92,17 @@ export default function HomeScreen() {
             router.push("/invoice");
           }}
         >
-          Navigate to Invoice
+          Navigate to Selected Invoice
         </Button>
 
-        {/* Comment and uncomment lines below if you need to populate or clear storage */}
-        <Button onPress={populateAsyncStorage}>
-          dev: Click to populate default values!
-        </Button>
-        <Button onPress={clearAsyncStorage}>
-          dev: Click to clear default values!
+        <Button
+          style={styles.button}
+          mode="contained"
+          onPress={() => {
+            router.push("/settings");
+          }}
+        >
+          Settings
         </Button>
       </View>
     </>
@@ -136,6 +134,5 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: "10%",
-    marginBottom: "20%",
   },
 });

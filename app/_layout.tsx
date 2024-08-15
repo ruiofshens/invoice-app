@@ -1,9 +1,8 @@
 import {
   MD3LightTheme as DefaultTheme,
   PaperProvider,
-  Button,
-  Icon,
 } from "react-native-paper";
+import { StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Stack } from "expo-router";
 import { InvoiceContextProvider } from "@/src/context/InvoiceContext";
@@ -24,6 +23,7 @@ export default function Layout() {
     <PaperProvider theme={theme}>
       <InvoiceContextProvider>
         <GestureHandlerRootView style={{ flex: 1 }}>
+          <StatusBar barStyle="dark-content" />
           <Stack
             screenOptions={{
               headerStyle: {
@@ -36,17 +36,18 @@ export default function Layout() {
               name="index"
               options={{
                 title: "",
-                headerRight: () => (
-                  <Button>
-                    <Icon source="folder-plus" size={30} />
-                  </Button>
-                ),
               }}
             />
             <Stack.Screen
               name="invoice"
               options={{
-                title: "Invoice 1",
+                title: "Current Invoice",
+              }}
+            />
+            <Stack.Screen
+              name="settings"
+              options={{
+                title: "Settings",
               }}
             />
           </Stack>
