@@ -1,8 +1,7 @@
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { StyleSheet, View, Dimensions, Linking } from "react-native";
 import { Text, Modal, Button } from "react-native-paper";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { InvoiceList, WHATSAPPNUM_KEY } from "../types/types";
+import { InvoiceList } from "../types/types";
 
 type Props = {
   invoice: InvoiceList;
@@ -40,8 +39,7 @@ export default function InvoiceSummaryModal(props: Props) {
   const [previewMsg, setPreviewMsg] = useState("");
 
   const sendToWhatsApp = async () => {
-    const phoneNumber = await AsyncStorage.getItem(WHATSAPPNUM_KEY);
-    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(serializedMsg)}`;
+    const whatsappURL = `https://wa.me/${props.invoice.contactDetails}?text=${encodeURIComponent(serializedMsg)}`;
     const supported = await Linking.canOpenURL(whatsappURL);
 
     if (supported) {

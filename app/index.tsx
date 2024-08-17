@@ -91,6 +91,7 @@ export default function HomeScreen() {
             updateInvoice(selectedInvoice!);
             router.push("/invoice");
           }}
+          icon="chevron-right"
         >
           Navigate to Selected Invoice
         </Button>
@@ -101,6 +102,7 @@ export default function HomeScreen() {
           onPress={() => {
             router.push("/settings");
           }}
+          icon="cog"
         >
           Settings
         </Button>

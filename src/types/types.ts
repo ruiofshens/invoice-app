@@ -1,5 +1,6 @@
 export interface InvoiceList {
   name: string;
+  contactDetails: string;
   items: InvoiceItem[];
 }
 

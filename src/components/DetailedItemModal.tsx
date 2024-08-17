@@ -52,7 +52,7 @@ export default function DetailedItemModal(props: Props) {
         <View style={styles.inputWrapper}>
           <Text style={styles.title}>Enter new price:</Text>
           <TextInput
-            placeholder={props.item.quantity.toString()}
+            placeholder={props.item.price.toString()}
             keyboardType="numeric"
             onChangeText={(text) => handleQuantityChange("price", text)}
             style={styles.input}
