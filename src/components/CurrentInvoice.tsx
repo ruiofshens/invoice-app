@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { useNavigation } from "expo-router";
-import { Text, DataTable, Portal } from "react-native-paper";
+import { DataTable, Portal } from "react-native-paper";
 import { InvoiceItem } from "../types/types";
 import DetailedItemModal from "./DetailedItemModal";
 import { useInvoice } from "../context/InvoiceContext";
+import CustomText from "@/src/components/CustomText";
 
 export default function CurrentInvoice() {
   const navigation = useNavigation();
@@ -24,7 +25,7 @@ export default function CurrentInvoice() {
 
       // Callback to have access to newItems returned by handleUpdateItem
       updateInvoice({
-        name: invoice.name,
+        ...invoice,
         items: newItems,
       });
 
@@ -67,40 +68,40 @@ export default function CurrentInvoice() {
 
         {!items.length ? (
           <View style={styles.emptyTextContainer}>
-            <Text style={styles.emptyText}>
+            <CustomText style={styles.emptyText}>
               Selected invoice is empty, please fill in items using bottom left
               button!
-            </Text>
+            </CustomText>
           </View>
         ) : (
           <>
             {items.map((item) => (
               <DataTable.Row key={item.id} onPress={() => handleRowPress(item)}>
                 <View style={[styles.cell, { flex: 13 }]}>
-                  <Text style={styles.cellText}>{item.name}</Text>
+                  <CustomText style={styles.cellText}>{item.name}</CustomText>
                 </View>
                 <View style={[styles.cell, { flex: 2 }]}>
-                  <Text style={[styles.cellText, { textAlign: "right" }]}>
+                  <CustomText style={[styles.cellText, { textAlign: "right" }]}>
                     {item.quantity}
-                  </Text>
+                  </CustomText>
                 </View>
                 <View style={[styles.cell, { flex: 5 }]}>
-                  <Text style={[styles.cellText, { textAlign: "right" }]}>
+                  <CustomText style={[styles.cellText, { textAlign: "right" }]}>
                     {formatPrice(item.price)}
-                  </Text>
+                  </CustomText>
                 </View>
               </DataTable.Row>
             ))}
             <DataTable.Row key={-1} style={styles.bottomRow}>
               <View style={[styles.cell, { width: "100%" }]}>
-                <Text
+                <CustomText
                   style={[
                     styles.cellText,
                     { textAlign: "right", fontWeight: "bold" },
                   ]}
                 >
                   Total: {calculateSum()}
-                </Text>
+                </CustomText>
               </View>
             </DataTable.Row>
           </>

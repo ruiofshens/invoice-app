@@ -1,7 +1,9 @@
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { StyleSheet, View, Dimensions, Linking } from "react-native";
-import { Text, Modal, Button } from "react-native-paper";
+import { Modal, Button } from "react-native-paper";
 import { InvoiceList } from "../types/types";
+
+import CustomText from "./CustomText";
 
 type Props = {
   invoice: InvoiceList;
@@ -18,17 +20,24 @@ export default function InvoiceSummaryModal(props: Props) {
   useEffect(() => {
     // Table header and divider
     const serializedArr = [];
+    serializedArr.push(props.invoice.additionalDetails + "\n");
     serializedArr.push(`Qty | Item`);
     serializedArr.push("------------");
     const previewArr: string[] = [];
+    previewArr.push(props.invoice.additionalDetails + "\n");
 
     // Use monospace for quantity in front to ensure items behind start at same pos
     props.invoice.items.forEach((item) => {
-      const numSpaces = item.quantity < 10 ? 2 : 1; // Additional space for single-digit numbers
-      serializedArr.push(
-        `\`\`\`${item.quantity}${" ".repeat(numSpaces)}\`\`\` ${item.name}`
-      );
-      previewArr.push(`${item.quantity}${" ".repeat(numSpaces)} ${item.name}`);
+      // Skip past items with 0 quantity
+      if (item.quantity > 0) {
+        const numSpaces = item.quantity < 10 ? 2 : 1; // Additional space for single-digit numbers
+        serializedArr.push(
+          `\`\`\`${item.quantity}${" ".repeat(numSpaces)}\`\`\` ${item.name}`
+        );
+        previewArr.push(
+          `${item.quantity}${" ".repeat(numSpaces)} ${item.name}`
+        );
+      }
     });
 
     setSerializedMsg(serializedArr.join("\n"));
@@ -40,13 +49,8 @@ export default function InvoiceSummaryModal(props: Props) {
 
   const sendToWhatsApp = async () => {
     const whatsappURL = `https://wa.me/${props.invoice.contactDetails}?text=${encodeURIComponent(serializedMsg)}`;
-    const supported = await Linking.canOpenURL(whatsappURL);
 
-    if (supported) {
-      await Linking.openURL(whatsappURL);
-    } else {
-      console.log("Unable to open URL:", whatsappURL);
-    }
+    await Linking.openURL(whatsappURL);
   };
 
   return (
@@ -55,11 +59,11 @@ export default function InvoiceSummaryModal(props: Props) {
       onDismiss={() => props.setModalVisible(false)}
       contentContainerStyle={styles.modalContainer}
     >
-      <Text style={styles.header}>Message Summary</Text>
+      <CustomText style={styles.header}>Message Summary</CustomText>
 
       <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>
-          <Text style={styles.modalMessage}>{previewMsg}</Text>
+          <CustomText style={styles.modalMessage}>{previewMsg}</CustomText>
         </View>
 
         <View style={styles.buttonContainer}>
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
     margin: 0, // Remove default margin to utilize maximum space
     borderRadius: 8,
     width: width * 0.9,
-    height: height * 0.5,
+    height: height * 0.7,
     alignSelf: "center",
   },
   header: {

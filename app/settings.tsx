@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, List, Snackbar, Text } from "react-native-paper";
+import { Button, List, Snackbar } from "react-native-paper";
 import {
   populateAsyncStorage,
   clearAsyncStorage,
 } from "@/scripts/populateSampleInvoices";
+import CustomText from "@/src/components/CustomText";
 
 export default function SettingsScreen() {
   const [visible, setVisible] = useState(false);
@@ -54,7 +55,7 @@ export default function SettingsScreen() {
           </Button>
         </List.Section>
         <View style={styles.footer}>
-          <Text>v0.0.1 - Crafted by Chong Shen Rui</Text>
+          <CustomText>v0.0.1 - Crafted by Chong Shen Rui</CustomText>
         </View>
       </View>
 

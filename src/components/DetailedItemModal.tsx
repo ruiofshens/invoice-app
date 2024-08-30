@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
-import { Text, Modal, Button, TextInput } from "react-native-paper";
+import { Modal, Button, TextInput } from "react-native-paper";
 import { InvoiceItem } from "../types/types";
+import CustomText from "@/src/components/CustomText";
 
 type Props = {
   modalVisible: boolean;
@@ -35,11 +36,11 @@ export default function DetailedItemModal(props: Props) {
       onDismiss={() => props.setModalVisible(false)}
       contentContainerStyle={styles.modalContainer}
     >
-      <Text style={styles.header}>{props.item.name}</Text>
+      <CustomText style={styles.header}>{props.item.name}</CustomText>
 
       <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>
-          <Text style={styles.title}>Enter new quantity:</Text>
+          <CustomText style={styles.title}>Enter new quantity:</CustomText>
           <TextInput
             placeholder={props.item.quantity.toString()}
             keyboardType="numeric"
@@ -50,7 +51,7 @@ export default function DetailedItemModal(props: Props) {
         </View>
 
         <View style={styles.inputWrapper}>
-          <Text style={styles.title}>Enter new price:</Text>
+          <CustomText style={styles.title}>Enter new price:</CustomText>
           <TextInput
             placeholder={props.item.price.toString()}
             keyboardType="numeric"
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     margin: 0, // Remove default margin to utilize maximum space
     borderRadius: 8,
     width: width * 0.9,
-    height: height * 0.5,
+    height: height * 0.7,
     alignSelf: "center",
   },
   header: {

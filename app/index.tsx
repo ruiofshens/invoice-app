@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Icon, Text } from "react-native-paper";
+import { Button, Icon } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,6 +10,7 @@ import {
   INVOICES_KEY,
 } from "@/src/types/types";
 import { useInvoice } from "@/src/context/InvoiceContext";
+import CustomText from "@/src/components/CustomText";
 import { useFocusEffect } from "expo-router";
 
 export default function HomeScreen() {
@@ -62,7 +63,7 @@ export default function HomeScreen() {
       <View style={styles.container}>
         <View style={styles.header}>
           <Icon source="food" size={50} />
-          <Text style={styles.mainText}>Invoices</Text>
+          <CustomText style={styles.mainText}>Invoices</CustomText>
         </View>
         <DropDownPicker
           open={open}
