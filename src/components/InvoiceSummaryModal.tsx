@@ -35,7 +35,7 @@ export default function InvoiceSummaryModal(props: Props) {
           `\`\`\`${item.quantity}${" ".repeat(numSpaces)}\`\`\` ${item.name}`
         );
         previewArr.push(
-          `${item.quantity}${" ".repeat(numSpaces)} ${item.name}`
+          `${item.quantity}${" ".repeat(numSpaces - 1)} ${item.name}`
         );
       }
     });
@@ -61,29 +61,29 @@ export default function InvoiceSummaryModal(props: Props) {
     >
       <CustomText style={styles.header}>Message Summary</CustomText>
 
-      <View style={styles.inputContainer}>
-        <View style={styles.inputWrapper}>
-          <CustomText style={styles.modalMessage}>{previewMsg}</CustomText>
-        </View>
+      <View style={styles.modalContent}>
+        <CustomText style={styles.modalMessage}>{previewMsg}</CustomText>
+      </View>
 
-        <View style={styles.buttonContainer}>
-          <Button
-            mode="contained"
-            onPress={() => props.setModalVisible(false)}
-            style={styles.button}
-            labelStyle={styles.buttonText}
-          >
-            Cancel
-          </Button>
-          <Button
-            mode="contained"
-            onPress={handleUpdate}
-            style={[styles.button, { marginLeft: 20 }]}
-            labelStyle={styles.buttonText}
-          >
-            WhatsApp
-          </Button>
-        </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          mode="contained"
+          onPress={() => props.setModalVisible(false)}
+          style={styles.button}
+          labelStyle={styles.buttonText}
+          maxFontSizeMultiplier={1}
+        >
+          Cancel
+        </Button>
+        <Button
+          mode="contained"
+          onPress={handleUpdate}
+          style={[styles.button, { marginLeft: "3%" }]}
+          labelStyle={styles.buttonText}
+          maxFontSizeMultiplier={1}
+        >
+          Whatsapp
+        </Button>
       </View>
     </Modal>
   );
@@ -98,31 +98,27 @@ const styles = StyleSheet.create({
     margin: 0, // Remove default margin to utilize maximum space
     borderRadius: 8,
     width: width * 0.9,
-    height: height * 0.7,
+    height: height * 0.85,
     alignSelf: "center",
   },
   header: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: "10%",
   },
-  inputContainer: {
+  modalContent: {
     flex: 1,
-    justifyContent: "center",
-  },
-  inputWrapper: {
-    marginBottom: 30,
   },
   modalMessage: {
-    fontSize: 20,
+    fontSize: 16,
     marginBottom: 5,
-    fontFamily: "Courier",
+    fontFamily: "CourierPrime_400Regular",
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 60,
+    alignSelf: "flex-end",
   },
   button: {
     flex: 1,
@@ -132,6 +128,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 15,
   },
 });

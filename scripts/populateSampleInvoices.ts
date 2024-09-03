@@ -6,15 +6,16 @@ const sampleInvoices: InvoiceList[] = [
   {
     name: "Supplier A",
     contactDetails: "14155238886",
+    additionalDetails: "additional details here",
     items: [
       {
-        id: 1,
+        id: "Chicken",
         name: "Chicken",
         quantity: 13,
         price: 1.2,
       },
       {
-        id: 2,
+        id: "Fish",
         name: "Fish",
         quantity: 5,
         price: 0.8,
@@ -24,15 +25,16 @@ const sampleInvoices: InvoiceList[] = [
   {
     name: "Supplier B",
     contactDetails: "14155238886",
+    additionalDetails: "additional details here",
     items: [
       {
-        id: 3,
+        id: "Salt",
         name: "Salt",
         quantity: 60,
         price: 0.4,
       },
       {
-        id: 4,
+        id: "Pepper",
         name: "Pepper",
         quantity: 30,
         price: 1.5,
@@ -42,27 +44,28 @@ const sampleInvoices: InvoiceList[] = [
   {
     name: "Supplier C",
     contactDetails: "14155238886",
+    additionalDetails: "additional details here",
     items: [
       {
-        id: 5,
+        id: "Bananas",
         name: "Bananas",
         quantity: 24,
         price: 2.3,
       },
       {
-        id: 6,
+        id: "Apples",
         name: "Apples",
         quantity: 19,
         price: 0.2,
       },
       {
-        id: 7,
+        id: "Pineapples",
         name: "Pineapples",
         quantity: 51,
         price: 1.6,
       },
       {
-        id: 8,
+        id: "Oranges",
         name: "Oranges",
         quantity: 7,
         price: 1.0,

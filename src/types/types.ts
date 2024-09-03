@@ -6,15 +6,15 @@ export interface InvoiceList {
 }
 
 export interface InvoiceItem {
-  id: number;
+  id: string;
   name: string;
   quantity: number;
   price: number;
 }
 
-export interface InvoiceDropdownItem {
-  label: string;
-  value: string;
+export interface InvoiceListItem {
+  id: string;
+  name: string;
 }
 
 export const INVOICES_KEY: string = "invoices";

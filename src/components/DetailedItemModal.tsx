@@ -68,14 +68,16 @@ export default function DetailedItemModal(props: Props) {
           onPress={() => props.setModalVisible(false)}
           style={styles.button}
           labelStyle={styles.buttonText}
+          maxFontSizeMultiplier={1}
         >
           Close
         </Button>
         <Button
           mode="contained"
           onPress={handleUpdate}
-          style={[styles.button, { marginLeft: 40 }]}
+          style={[styles.button, { marginLeft: "3%" }]}
           labelStyle={styles.buttonText}
+          maxFontSizeMultiplier={1}
         >
           Update
         </Button>
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   header: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 10,
@@ -132,6 +134,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 15,
   },
 });

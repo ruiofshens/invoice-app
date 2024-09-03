@@ -1,31 +1,21 @@
-import { useState, useCallback } from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, Icon } from "react-native-paper";
-import DropDownPicker from "react-native-dropdown-picker";
-import { router } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  InvoiceList,
-  InvoiceDropdownItem,
-  INVOICES_KEY,
-} from "@/src/types/types";
-import { useInvoice } from "@/src/context/InvoiceContext";
 import CustomText from "@/src/components/CustomText";
-import { useFocusEffect } from "expo-router";
+import { useInvoice } from "@/src/context/InvoiceContext";
+import { INVOICES_KEY, InvoiceList, InvoiceListItem } from "@/src/types/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Button, Icon } from "react-native-paper";
 
 export default function HomeScreen() {
-  // Hook to update currently active invoice
   const { updateInvoice } = useInvoice();
-  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceList>();
 
   // States for all stored invoices in storage
   const [loading, setLoading] = useState<boolean>(true);
   const [allInvoices, setAllInvoices] = useState<InvoiceList[]>([]);
 
-  // States for dropdown menu
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState<InvoiceDropdownItem[]>([]);
+  // Items for display in FlatList
+  const [items, setItems] = useState<InvoiceListItem[]>([]);
 
   // Fetch data from local storage and reset dropdown menu whenever screen is focused
   useFocusEffect(
@@ -39,15 +29,13 @@ export default function HomeScreen() {
             setAllInvoices(fetchedData);
             setItems(
               fetchedData.map((invoice) => ({
-                label: invoice.name,
-                value: invoice.name,
+                id: invoice.name,
+                name: invoice.name,
               }))
             );
           }
 
           setLoading(false);
-          setValue(null);
-          setSelectedInvoice(undefined);
         } catch (error) {
           console.error("Error retrieving data from AsyncStorage:", error);
           setLoading(false);
@@ -58,44 +46,41 @@ export default function HomeScreen() {
     }, [])
   );
 
+  const renderItem = ({ item }: { item: InvoiceListItem }) => (
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => {
+        updateInvoice(
+          allInvoices.filter((invoice) => invoice.name === item.name)[0]
+        );
+        router.push("/invoice");
+      }}
+    >
+      <CustomText style={styles.itemText}>{item.name}</CustomText>
+    </TouchableOpacity>
+  );
+
+  const renderSeparator = () => <View style={styles.separator} />;
+
   return (
     <>
       <View style={styles.container}>
         <View style={styles.header}>
           <Icon source="food" size={50} />
           <CustomText style={styles.mainText}>Invoices</CustomText>
+          <CustomText style={styles.subtitleText}>Select Supplier:</CustomText>
         </View>
-        <DropDownPicker
-          open={open}
-          value={value}
-          items={items}
-          loading={loading}
-          containerStyle={styles.dropdown}
-          textStyle={styles.dropdownText}
-          placeholderStyle={styles.placeholderText}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setItems}
-          placeholder="Select an option..."
-          onSelectItem={(item) => {
-            setSelectedInvoice(
-              allInvoices.filter((invoice) => invoice.name === item.value)[0]
-            );
-          }}
-        />
 
-        <Button
-          style={styles.button}
-          mode="contained"
-          disabled={!selectedInvoice}
-          onPress={() => {
-            updateInvoice(selectedInvoice!);
-            router.push("/invoice");
-          }}
-          icon="chevron-right"
-        >
-          Navigate to Selected Invoice
-        </Button>
+        <FlatList
+          refreshing={loading}
+          data={items}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          style={styles.flatList}
+          persistentScrollbar
+          showsVerticalScrollIndicator
+          ItemSeparatorComponent={renderSeparator}
+        />
 
         <Button
           style={styles.button}
@@ -124,16 +109,28 @@ const styles = StyleSheet.create({
   mainText: {
     fontSize: 40,
   },
-  dropdown: {
+  subtitleText: {
+    marginTop: "5%",
+    fontSize: 30,
+  },
+  flatList: {
     marginTop: "10%",
-    width: "85%",
+    width: "90%",
     alignSelf: "center",
+    height: "30%",
+    flexGrow: 0,
   },
-  dropdownText: {
-    fontSize: 25,
+  itemContainer: {
+    alignItems: "center",
+    paddingVertical: "2%",
   },
-  placeholderText: {
-    color: "gray",
+  itemText: {
+    fontSize: 20,
+  },
+  separator: {
+    height: 3,
+    backgroundColor: "#ccc",
+    width: "auto",
   },
   button: {
     marginTop: "10%",

@@ -8,7 +8,7 @@ Custom-built solution as my family needed an application that allows for:
 - Functionality to customise quantity of products and have price calculated automatically
 - Declaring of initial invoices and contact details through a script (to be phased out with `V2 - improved CRUD functionality`)
 - Automatic parsing of invoice list as a message to send to supplier through Whatsapp
-- Larger-than-usual font sizes for improved readability and usage
+- Additional details to be included in Whatsapp message
 
 | Main Screen                                                  | Invoice Screen<br>(modifying item details)                                  | Invoice Screen<br>(Whatsapp message preview)                                 | Whatsapp Message                                    | Settings Screen Sample                                            |
 | ------------------------------------------------------------ | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------- |
@@ -23,7 +23,6 @@ Future work includes:
 For customised components and icons:
 
 - `react-native-paper`
-- `react-native-dropdown-picker`
 
 For persistent storage:
 

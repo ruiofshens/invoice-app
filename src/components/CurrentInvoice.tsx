@@ -14,7 +14,11 @@ export default function CurrentInvoice() {
   const [items, setItems] = useState(invoice.items);
 
   useEffect(() => {
-    navigation.setOptions({ title: invoice.name });
+    navigation.setOptions({
+      headerTitle: () => (
+        <CustomText style={{ fontSize: 17 }}>{invoice.name}</CustomText>
+      ),
+    });
   }, [invoice, navigation]);
 
   const handleUpdateItem = (updatedItem: InvoiceItem) => {
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   cellText: {
-    fontSize: 20,
+    fontSize: 17,
   },
   headerRow: {
     borderBottomWidth: 2,

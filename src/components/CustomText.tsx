@@ -3,8 +3,7 @@ import { Text } from "react-native-paper";
 
 type Props = React.ComponentProps<typeof Text>;
 
-// Disable font scaling so that excessively large font sizes do not break the design
-// TODO: consider less stricter maxFontSizeMultiplier
+// Prevent excessively large font sizes from breaking the design
 const CustomText: React.FC<Props> = (props) => {
   return <Text {...props} allowFontScaling={false} />;
 };
