@@ -23,8 +23,11 @@ export default function InvoiceSummaryModal(props: Props) {
     serializedArr.push(props.invoice.additionalDetails + "\n");
     serializedArr.push(`Qty | Item`);
     serializedArr.push("------------");
+
     const previewArr: string[] = [];
     previewArr.push(props.invoice.additionalDetails + "\n");
+    previewArr.push(`Qty | Item`);
+    previewArr.push("------------");
 
     // Use monospace for quantity in front to ensure items behind start at same pos
     props.invoice.items.forEach((item) => {
